@@ -6,6 +6,7 @@ import Authentication from './components/pages/Authentication';
 import Navbar from './components/Navbar';
 import { LightTheme, MuiTheme } from './utils/themes';
 import styled from 'styled-components';
+import Dashboard from './components/pages/Dashboard';
 
 const Container = styled.div`
   width: 100%;
@@ -30,6 +31,9 @@ function App() {
           {currentUser ? (
             <Container>
               <Navbar />
+              <Routes>
+              <Route path="/" exact element={<Dashboard />} />
+            </Routes>
             </Container>
           ) : (
             <Container>
