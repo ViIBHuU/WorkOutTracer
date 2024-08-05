@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import TextInput from "./TextInput";
 import Button from "./Button";
-// import { UserSignIn } from "../api";
-// import { useDispatch } from "react-redux";
-// import { loginSuccess } from "../redux/reducers/userSlice";
+import { UserSignIn } from "../api/api";
+ import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/reducers/userSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -25,37 +25,37 @@ const Span = styled.div`
 `;
 
 const SignIn = () => {
-//   const dispatch = useDispatch();
+   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-//   const validateInputs = () => {
-//     if (!email || !password) {
-//       alert("Please fill in all fields");
-//       return false;
-//     }
-//     return true;
-//   };
+  const validateInputs = () => {
+    if (!email || !password) {
+      alert("Please fill in all fields");
+      return false;
+    }
+    return true;
+  };
 
   const handelSignIn = async () => {
     setLoading(true);
     setButtonDisabled(true);
-    // if (validateInputs()) {
-    //   await UserSignIn({ email, password })
-    //     .then((res) => {
-    //       dispatch(loginSuccess(res.data));
-    //       alert("Login Success");
-    //       setLoading(false);
-    //       setButtonDisabled(false);
-    //     })
-    //     .catch((err) => {
-    //       alert(err.response.data.message);
-    //       setLoading(false);
-    //       setButtonDisabled(false);
-    //     });
-    // }
+    if (validateInputs()) {
+      await UserSignIn({ email, password })
+        .then((res) => {
+          dispatch(loginSuccess(res.data));
+          alert("Login Success");
+          setLoading(false);
+          setButtonDisabled(false);
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+          setLoading(false);
+          setButtonDisabled(false);
+        });
+    }
   };
 
   return (

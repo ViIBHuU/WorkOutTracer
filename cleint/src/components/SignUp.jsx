@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import TextInput from "./TextInput";
 import Button from "./Button";
-// import { UserSignUp } from "../api";
-// import { useDispatch } from "react-redux";
-// import { loginSuccess } from "../redux/reducers/userSlice";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/reducers/userSlice";
+import { UserSignUp } from "../api/api";
 
 const Container = styled.div`
   width: 100%;
@@ -26,38 +26,39 @@ const Span = styled.div`
 `;
 
 const SignUp = () => {
-//   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-//   const validateInputs = () => {
-//     if (!name || !email || !password) {
-//       alert("Please fill in all fields");
-//       return false;
-//     }
-//     return true;
-//   };
+  const validateInputs = () => {
+    if (!name || !email || !password) {
+      alert("Please fill in all fields");
+      return false;
+    }
+    return true;
+  };
 
   const handelSignUp = async () => {
     setLoading(true);
     setButtonDisabled(true);
-    // if (validateInputs()) {
-    //   await UserSignUp({ name, email, password })
-    //     .then((res) => {
-    //       dispatch(loginSuccess(res.data));
-    //       alert("Account Created Success");
-    //       setLoading(false);
-    //       setButtonDisabled(false);
-    //     })
-    //     .catch((err) => {
-    //       alert(err.response.data.message);
-    //       setLoading(false);
-    //       setButtonDisabled(false);
-    //     });
-    // }
+    if (validateInputs()) {
+      console.log({name, email, password});
+      await UserSignUp({ name, email, password })
+        .then((res) => {
+          dispatch(loginSuccess(res.data));
+          alert("Account Created Success");
+          setLoading(false);
+          setButtonDisabled(false);
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+          setLoading(false);
+          setButtonDisabled(false);
+        });
+    }
   };
   return (
     <Container>

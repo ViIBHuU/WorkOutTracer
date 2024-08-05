@@ -1,12 +1,13 @@
-import React from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Authentication from './components/pages/Authentication';
+import { ThemeProvider, styled } from "styled-components";
+import { LightTheme } from "./utils/themes.js";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import Authentication from "./components/pages/Authentication";
 import Navbar from './components/Navbar';
-import { LightTheme, MuiTheme } from './utils/themes';
-import styled from 'styled-components';
-import Dashboard from './components/pages/Dashboard';
+import Dashboard from "./components/pages/Dashboard.jsx";
+import Workouts from './components/pages/Workouts.jsx';
+
 
 const Container = styled.div`
   width: 100%;
@@ -20,29 +21,26 @@ const Container = styled.div`
   transition: all 0.2s ease;
 `;
 
-
-const currentUser = true;
-
 function App() {
+  const { currentUser } = useSelector((state) => state.user);
   return (
-    <MuiThemeProvider theme={MuiTheme}>
-      <StyledThemeProvider theme={LightTheme}>
-        <BrowserRouter>
-          {currentUser ? (
-            <Container>
-              <Navbar />
-              <Routes>
-              <Route path="/" exact element={<Dashboard />} />
+    <ThemeProvider theme={LightTheme}>
+      <BrowserRouter>
+        {currentUser ? (
+          <Container>
+            <Navbar currentUser={currentUser} />
+            <Routes>
+              <Route path="/"  element={<Dashboard />} />
+              <Route path="/workouts"  element={<Workouts />} />
             </Routes>
-            </Container>
-          ) : (
-            <Container>
-              <Authentication />
-            </Container>
-          )}
-        </BrowserRouter>
-      </StyledThemeProvider>
-    </MuiThemeProvider>
+          </Container>
+        ) : (
+          <Container>
+            <Authentication />
+          </Container>
+        )}
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
